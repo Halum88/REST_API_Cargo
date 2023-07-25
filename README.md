@@ -9,7 +9,7 @@ This is a REST API service developed using FastAPI and Tortoise ORM. It provides
 **asynco** - <https://docs.python.org/3/library/asyncio.html>\
 **PostgreSQL** - <https://postgresql.org/>\
 **Docker** - <https://docker.com/>\
-**Tortoise ORM** 
+**Tortoise ORM**  - <https://tortoise.github.io/>
 
 ## Docker
 **In order to get all the services started make sure you have an environment variables required to this project. place .env file with the variables below to the root directory of the project**
