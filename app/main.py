@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 from app.tortoise_settings import TORTOISE_CONFIG
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException
 from app.models import Tariff
 
 
