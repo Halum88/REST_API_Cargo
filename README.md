@@ -4,11 +4,11 @@
 This is a REST API service developed using FastAPI and Tortoise ORM. It provides the ability to calculate the cost of cargo insurance based on the type of cargo and the declared value.
 
 ## Technologies
-**FastAPI** - <fastapi.tiangolo.com/>
-**Uvicorn** - <uvicorn.org/>
-**asynco** - <docs.python.org/3/library/asyncio.html>
-**PostgreSQL** - <postgresql.org/>
-**Docker** - <docker.com/>
+**FastAPI** - <https://fastapi.tiangolo.com/>\
+**Uvicorn** - <https://www.uvicorn.org/>\
+**asynco** - <https://docs.python.org/3/library/asyncio.html>\
+**PostgreSQL** - <https://postgresql.org/>\
+**Docker** - <https://docker.com/>\
 **Tortoise ORM** 
 
 ## Docker
@@ -38,7 +38,11 @@ To view the result, you can use *http://localhost:8000/docs*
 - cost: float
 
 **Example answer**
-```{"calculated_cost":40.00}
+```
+{"calculated_cost":40.00}
+```
 
 **To disable docker-compose use command bellow**
-```docker-compose down -v
+```
+docker-compose down -v
+```
