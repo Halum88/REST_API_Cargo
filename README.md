@@ -29,7 +29,7 @@ docker-compose up -d
 ```
 
 **Located at the link**
-*http://localhost:8000/*
+*http://localhost:8000/*\
 To view the result, you can use *http://localhost:8000/docs*
 
 **Endpoint**
