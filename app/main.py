@@ -1,83 +1,49 @@
 from fastapi import FastAPI
-from tortoise import fields
-from tortoise.models import Model
 from tortoise.contrib.fastapi import register_tortoise
-from pydantic import BaseModel
-import uvicorn
-from tortoise.exceptions import DoesNotExist
-from tortoise import Tortoise
+from app.tortoise_settings import TORTOISE_CONFIG
+from fastapi import FastAPI, HTTPException, Query
+from app.models import Tariff
+
 
 app = FastAPI()
 
-class Tariff(Model):
-    id = fields.IntField(pk=True)
-    date = fields.DateField()
-    cargo_type = fields.CharField(max_length=255)
-    rate = fields.DecimalField(max_digits=8, decimal_places=4)
-
-
-async def init():
-    await Tortoise.init(
-        db_url="sqlite://./db.sqlite3",
-        modules={"models": ["__main__"]},
-    )
-    await Tortoise.generate_schemas()
-    
-    
-async def create_tariff_table():
-    
-    tariffs_data = {
-        "2020-06-01": [
-            {
-                "cargo_type": "Glass",
-                "rate": "0.04"
-            },
-            {
-                "cargo_type": "Other",
-                "rate": "0.01"
-            }
-        ],
-        "2020-07-01": [
-            {
-                "cargo_type": "Glass",
-                "rate": "0.035"
-            },
-            {
-                "cargo_type": "Other",
-                "rate": "0.015"
-            }
-        ]
-    }
-
-    for date, tariffs in tariffs_data.items():
-        print(date,'**',tariffs)
-        for tariff_data in tariffs:
-            tariff = Tariff(date=date, cargo_type=tariff_data["cargo_type"], rate=float(tariff_data["rate"]))
-            await tariff.save()
-            
-class TariffSchema(BaseModel):
-    rate: float
-
-@app.get("/tariffs/{date}/{cargo_type}")
-async def get_tariff(date: str, cargo_type: str):
-    try:
-        tariff = await Tariff.get(date=date, cargo_type=cargo_type)
-        return {"rate": tariff.rate}
-    except DoesNotExist:
-        return {"error": "Tariff not found"}
-
 register_tortoise(
     app,
-    db_url="sqlite://./db.sqlite3",
-    modules={"models": ["main"]},
+    db_url= TORTOISE_CONFIG["connections"]["default"],
+    modules={"models":["app.models"]},
     generate_schemas=True,
     add_exception_handlers=True,
-)
+    )
 
-if __name__ == "__main__":
-    import asyncio
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(init())
-    loop.run_until_complete(create_tariff_table())
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/")
+def read_root():
+    return {'Hello':'World'}
+
+
+@app.post("/tariffs/")
+async def create_tariffs(data: dict):
+    try:
+        for date, tariffs in data.items():
+            for tariff_data in tariffs:
+                tariff = await Tariff.create(
+                    date=date,
+                    cargo_type=tariff_data["cargo_type"],
+                    rate=tariff_data["rate"]
+                )
+        return {"message": "Tariffs successfully created."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+@app.get("/tariffs/")
+async def get_tariffs(date: str, cargo_type: str, cost: float):
+    try:
+        tariff = await Tariff.filter(date__lte=date, cargo_type=cargo_type).order_by('-date').first()
+        if tariff:
+            calculated_cost = float(tariff.rate) * cost
+            return {"calculated_cost": calculated_cost}
+        else:
+            raise HTTPException(status_code=404, detail="Tariff not found for the provided date and cargo type.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
