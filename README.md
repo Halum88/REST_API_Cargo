@@ -22,7 +22,7 @@ POSTGRES_PORT = <port>```
 
 **To up and run the docker-compose use commands below**
 ```docker-compose build```
-```docker-compose up -d````
+```docker-compose up -d```
 
 **Located at the link**
 *http://localhost:8000/*
