@@ -18,11 +18,11 @@ POSTGRES_USER = <user_name>
 POSTGRES_PASSWORD = <user_password>
 POSTGRES_DB = <name_db>
 POSTGRES_HOST = <name_host>
-POSTGRES_PORT = <port>```
+POSTGRES_PORT = <port>
 
 **To up and run the docker-compose use commands below**
-```docker-compose build```
-```docker-compose up -d```
+```docker-compose build
+```docker-compose up -d
 
 **Located at the link**
 *http://localhost:8000/*
@@ -34,7 +34,7 @@ To view the result, you can use *http://localhost:8000/docs*
 - cost: float
 
 **Example answer**
-```{"calculated_cost":40.00}```
+```{"calculated_cost":40.00}
 
 **To disable docker-compose use command bellow**
-```docker-compose down -v```
+```docker-compose down -v
