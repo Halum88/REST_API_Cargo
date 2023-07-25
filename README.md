@@ -13,16 +13,20 @@ This is a REST API service developed using FastAPI and Tortoise ORM. It provides
 
 ## Docker
 **In order to get all the services started make sure you have an environment variables required to this project. place .env file with the variables below to the root directory of the project**
-```Python
+```
 POSTGRES_USER = <user_name>
 POSTGRES_PASSWORD = <user_password>
 POSTGRES_DB = <name_db>
 POSTGRES_HOST = <name_host>
 POSTGRES_PORT = <port>
-
+```
 **To up and run the docker-compose use commands below**
-```docker-compose build
-```docker-compose up -d
+```
+docker-compose build
+```
+```
+docker-compose up -d
+```
 
 **Located at the link**
 *http://localhost:8000/*
