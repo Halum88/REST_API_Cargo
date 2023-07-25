@@ -39,7 +39,7 @@ async def get_tariffs(date: str, cargo_type: str, cost: float):
                 
         if tariff:
             calculated_cost = float(tariff.rate) * cost
-            return {"calculated_cost": calculated_cost}
+            return {"calculated_cost": round(calculated_cost,2)}
         else:
             raise HTTPException(status_code=404, detail="Tariff not found for the provided date and cargo type.")
     except Exception as e:
